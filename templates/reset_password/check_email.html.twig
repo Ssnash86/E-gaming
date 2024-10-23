@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réinitialisation mot de passe
+{% endblock %}
+
+{% block body %}
+	<main class="lg:h-[85vh]">
+		<section id="form_profil" class="  border-2 rounded-2xl container mx-auto lg:w-[40vw]  p-6 mt-[8%] shadow-2xl shadow-[0_10px_90px_0px_rgba(255,255,255,0.6)] ">
+			<h1 class="text-4xl text-white underline  underline-offset-8 p-6">Réinitialisation mot de passe</h1>
+			<section class="flex flex-col  justify-center mx-auto gap-4 w-[60%]">
+				<div class="mt-4">
+					<p>
+						Si un compte correspondant à votre e-mail existe, un e-mail vient d'être envoyé contenant un lien que vous pouvez utiliser pour réinitialiser votre mot de passe.
+						Ce lien expirera dans
+						{{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+					</p>
+					
+				</div>
+			</section>
+			<div class="flex justify-end gap-4 mt-4 items-center">
+            <p>Si vous ne recevez pas d'e-mail, veuillez vérifier votre dossier spam ou
+					</p>
+				<a class="btn bg-[#e58f28] p-2 rounded" href="{{ path('app_forgot_password_request') }}">Veuillez recommencer</a>
+			</div>
+		</section>
+	</main>
+{% endblock %}

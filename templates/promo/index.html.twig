@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Jeux en promo
+{% endblock %}
+
+{% block body %}
+	<main class=" ">
+	<h1 class="text-4xl text-white underline underline-offset-8 p-8">Nos jeux en promo : </h1>
+		<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 m-[3%]">
+			{% for jeux_promos in jeux_promo %}
+				<div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-2xl shadow-[0_10px_90px_0px_rgba(255,255,255,0.6)] dark:bg-gray-800 dark:border-gray-700">
+						<div class="card ">
+							<div class="wrapper">
+								<img src="{{jeux_promos.img ? asset('img/' ~ jeux_promos.img)}}" class="cover-image"/>
+							</div>
+							<img src="{{jeux_promos.img3d ? asset('img/' ~ jeux_promos.img3d)}}" class="character"/>
+						</div>
+						<div class="p-5 flex flex-col content-between">
+							<a href="{{path('app_jeux_description',{id:jeux_promos.id})}}">
+								<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center underline">{{jeux_promos.nom}}</h5>
+							</a>
+							<p class="h-48 flex mb-3 font-normal text-gray-700 dark:text-gray-400 text-center items-center">{{jeux_promos.description}}</p>
+							<div class="flex justify-between items-center gap-4 relative -bottom-2 ">
+								<a href="{{path('app_jeux_description',{id:jeux_promos.id})}}" class=" flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-[#f95652] rounded-lg hover:bg-[#2e2e2e] focus:ring-4 focus:outline-none focus:ring-blue-300 ">
+									Voir plus
+									<svg class="h-6 w-6 fill-[white] " xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 512"><path d=" M192 64C86 64 0 150 0 256S86 448 192 448l256 0c106 0 192-86 192-192s-86-192-192-192L192 64zM496 168a40 40 0 1 1 0 80 40 40 0 1 1 0-80zM392 304a40 40 0 1 1 80 0 40 40 0 1 1 -80 0zM168 200c0-13.3 10.7-24 24-24s24 10.7 24 24l0 32 32 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-32 0 0 32c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-32-32 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l32 0 0-32z"/></svg>
+								</a>
+								<div id="panier" class="flex flex-col items-center">
+									<a href="{{path('app_panier_add' , {'id':jeux_promos.id})}}">
+										<svg class="h-6 w-6 " xmlns="http://www.w3.org/2000/svg" viewbox="0 0 576 512"><path d="M253.3 35.1c6.1-11.8 1.5-26.3-10.2-32.4s-26.3-1.5-32.4 10.2L117.6 192 32 192c-17.7 0-32 14.3-32 32s14.3 32 32 32L83.9 463.5C91 492 116.6 512 146 512L430 512c29.4 0 55-20 62.1-48.5L544 256c17.7 0 32-14.3 32-32s-14.3-32-32-32l-85.6 0L365.3 12.9C359.2 1.2 344.7-3.4 332.9 2.7s-16.3 20.6-10.2 32.4L404.3 192l-232.6 0L253.3 35.1zM192 304l0 96c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-96c0-8.8 7.2-16 16-16s16 7.2 16 16zm96-16c8.8 0 16 7.2 16 16l0 96c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-96c0-8.8 7.2-16 16-16zm128 16l0 96c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-96c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg>
+									</a>
+									<p class="text-xs">Ajout au panier</p>
+								</div>
+								<p class="bg-[#e58f28] p-2 rounded text-white">Prix :
+									{{ (jeux_promos.prix * (1 - (jeux_promos.reduction / 100)))|number_format(2) }}
+									€</p>
+							</div>
+						</div>
+					</div>
+			
+	
+			{% endfor %}
+		</section>
+	</main>
+{% endblock %}

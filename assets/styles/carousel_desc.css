@@ -1,0 +1,11 @@
+.f-carousel {
+  --f-carousel-slide-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .f-carousel {
+    height: 40vh;
+    --f-carousel-slide-width: calc(80% / 1);
+    --f-carousel-spacing: 30px;
+  }
+}

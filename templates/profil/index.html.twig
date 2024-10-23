@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil
+{% endblock %}
+
+{% block body %}
+	<main>
+		<section class="border-2 rounded-2xl container mx-auto lg:w-[60vw]  p-6 mt-[8%] shadow-2xl shadow-[0_10px_90px_0px_rgba(255,255,255,0.6)]">
+			<section class="border-2 rounded-2xl container mx-auto w-[98%]  p-6">
+				<h1 class="text-4xl text-white underline  underline-offset-8 p-6">Profil :</h1>
+				<div class="flex flex-col items-center text-2xl ">
+					<div class="flex flex-col gap-4">
+						{% if app.user.information.nom is defined and app.user.information.prenom is defined %}
+							<p class="text-white">
+								<span class="text-[#e58f28] underline underline-offset-4">Nom :</span>
+								<span class="uppercase">
+									{{app.user.information.nom}}</span>
+							</p>
+							<p class="text-white">
+								<span class="text-[#e58f28] underline-offset-4">Prénom :</span>
+								<span class="uppercase">{{app.user.information.prenom}}</span>
+							</p>
+							<p class="text-white">
+								<span class="text-[#e58f28] underline-offset-4">Téléphone :
+								</span>
+								{{app.user.information.tel}}
+							</p>
+							<p class="text-white">
+								<span class="text-[#e58f28] underline-offset-4">Adresse :
+								</span>
+								{{app.user.information.Adresse}}
+								{{app.user.information.CP}}
+								{{app.user.information.ville}}
+							</p>
+						{% endif %}
+						<p class="text-white">
+							<span class="text-[#e58f28] underline-offset-4">Email :
+							</span>
+							{{app.user.email}}</p>
+					</div>
+				</div>
+				<div class="bg-[#e58f28] lg:w-[10%] p-2 text-center ">
+					<button id="modif_profil" class="uppercase">Modifier Profil</button>
+				</div>
+			</section>
+		</section>
+		<section id="form_profil" class="hidden border-2 rounded-2xl container mx-auto lg:w-[60vw]  p-6 mt-[8%] shadow-2xl shadow-[0_10px_90px_0px_rgba(255,255,255,0.6)]">
+			<section class="border-2 rounded-2xl container mx-auto w-[98%]  p-6">
+				<h2 class="text-4xl text-white underline  underline-offset-8 p-6">Modification:</h2>
+				<div class="items-center text-2xl ">
+					{{ form_start(form ) }}
+					<div class="flex max-sm:flex-col justify-center gap-8 ">
+						<div class="m-4">
+							{{ form_label(form.email, null, {'label_attr': {'class': 'uppercase m-4 flex flex-col text-[#e58f28] underline-offset-4'}}) }}
+							{{ form_widget(form.email) }}
+							{{form_label(form.ville, null, {'label_attr': {'class': 'uppercase m-4 flex flex-col text-[#e58f28] underline underline-offset-4'}})}}
+							{{form_widget(form.ville)}}
+							{{form_label(form.cp, null, {'label_attr': {'class': 'uppercase m-4 flex flex-col text-[#e58f28] underline underline-offset-4'}})}}
+							{{form_widget(form.cp)}}
+							{{form_label(form.adresse, null, {'label_attr': {'class': 'uppercase m-4 flex flex-col text-[#e58f28] underline underline-offset-4'}})}}
+							{{form_widget(form.adresse)}}
+						</div>
+						<div class="m-4">
+							{{form_label(form.nom, null, {'label_attr': {'class': 'uppercase m-4 flex flex-col text-[#e58f28] underline underline-offset-4'}})}}
+							{{form_widget(form.nom)}}
+							{{form_label(form.prenom, null, {'label_attr': {'class': 'uppercase m-4 flex flex-col text-[#e58f28] underline underline-offset-4'}})}}
+							{{form_widget(form.prenom)}}
+							{{form_label(form.tel, null, {'label_attr': {'class': 'uppercase m-4 flex flex-col text-[#e58f28] underline underline-offset-4'}})}}
+							{{form_widget(form.tel)}}
+						</div>
+						<div id="btn_envoyer" class="h-[80px] p-2 text-center uppercase lg:m-8  flex flex-end">
+							<button class="btn bg-[#e58f28] p-4">Envoyer</button>
+						</div>
+						{{ form_end(form) }}
+					</div>
+				</div>
+			</section>
+		</section>
+		<section class="border-2 rounded-2xl container mx-auto lg:w-[60vw] flex flex-col gap-4 p-6 mt-[8%] shadow-2xl shadow-[0_10px_90px_0px_rgba(255,255,255,0.6)]">
+    <h2 class="text-4xl text-white underline underline-offset-8 p-6">Commandes passées :</h2>
+    {% for commande in commandes %}
+        <section class="border-2 rounded-2xl container mx-auto w-[98%] text-white p-6">
+            <div class="flex max-sm:flex-col md:flex-col justify-between lg:gap-4">
+                <div>
+                    <h5 class="text-xl">Bon de commande :</h5>
+                    <p>N° {{ commande.numeroCommande }}</p>
+                </div>
+                <p>Prix total de la commande : {{ commande.total }} €</p>
+                <p>Commande passée le : {{ commande.date|date("d/m/Y") }}</p>
+            </div>
+            <details>
+                <summary>Détails de la commande</summary>
+                <div>
+                    {% for jeu in detailsCommandes[commande.id] %}
+					<div class="flex justify-between text-center">
+                        <p>Article : {{ jeu.jeux.nom }}</p>
+						<p>Quantité : {{ jeu.quantite }}</p>
+						<p>Prix : {{ jeu.prixUnit }} € chacun</p>
+						</div>
+                    {% endfor %}
+                </div>
+            </details>
+        </section>
+    {% endfor %}
+</section>
+	</main>
+	<script src="{{asset('profil.js')}}"></script>
+{% endblock %}

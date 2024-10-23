@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Merci pour votre commande !
+{% endblock %}
+
+{% block body %}
+<main class="h-[85vh]">
+
+	<section class="container mx-auto border-2 rounded-2xl   w-[40vw] h-[45vh]  p-6 mt-[8%] shadow-2xl shadow-[0_10px_90px_0px_rgba(255,255,255,0.6)] text-white ">
+    <h1 class="text-4xl text-white underline  underline-offset-8 p-6 uppercase">Commande validé</h1>
+			<div class="flex flex-col gap-4 items-center my-6 p-6">
+      <p class="title">
+				<span class="uppercase">{{name}}</span>
+				, Merci pour votre commande d'un total de
+				{{amount /100}}
+				€ !</p>
+				<p>Numéro de commande : {{ commande_info.numeroCommande }}</p>
+			<p class="details">
+				C'est un plaisir de vous servir! Si vous avez des questions, n'hesitez pas à nous écrire
+				<a href="mailto:orders@example.com">orders@example.com</a>.
+			</p>
+      </div>
+      <div class="flex justify-end "><a href="/" class="retour bg-[#e58f28] p-2 rounded">Retour</a></div>
+	</section>
+
+</main>
+{% endblock %}

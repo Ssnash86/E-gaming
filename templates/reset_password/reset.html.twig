@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réinitialisation mot de passe{% endblock %}
+
+{% block body %}
+<main class="lg:h-[85vh]">
+		<section id="form_profil" class="  border-2 rounded-2xl container mx-auto lg:w-[40vw]  p-6 mt-[8%] shadow-2xl shadow-[0_10px_90px_0px_rgba(255,255,255,0.6)] ">
+    <h1 class="text-4xl text-white underline  underline-offset-8 p-6">Réinitialisation mot de passe</h1>
+    {{ form_start(resetForm) }}
+        {{ form_row(resetForm.plainPassword) }}
+        <button class="btn btn-primary bg-[#e58f28] p-2 rounded">Reset password</button>
+    {{ form_end(resetForm) }}
+    </section>
+    </main>
+{% endblock %}

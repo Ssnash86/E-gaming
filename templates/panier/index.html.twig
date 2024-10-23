@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier
+{% endblock %}
+
+{% block body %}
+	<main class="border-2 rounded-2xl container mx-auto lg:w-[60vw]  p-6 mt-[8%] shadow-2xl shadow-[0_10px_90px_0px_rgba(255,255,255,0.6)]">
+		<section>
+			<h1 class="text-4xl text-white underline underline-offset-8">Mon panier</h1>
+		</section>
+		<section class=" flex justify-center p-6 h-[50vh]">
+			<form action="{{path('app_checkout')}}" method="post">
+				<table class=" lg:text-xl border-separate rounded-2xl border-spacing-2 lg:border-spacing-4 border border-slate-400  ">
+					<thead class="text-[#e58f28] underline underline-offset-4   ">
+						<tr>
+							<th>Produit</th>
+							<th></th>
+							<th>Prix</th>
+							<th>Quantité</th>
+							<th>Total</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody class="text-white ">
+						{% for element in createPanier.dataPanier %}
+							<tr>
+								<td class="border-b-2 text-center p-1">
+									<a href="{{path('app_jeux_description',{id:element.jeux.id})}}"><input type="hidden" name="nom_jeux" value="{{element.jeux.nom}}">{{element.jeux.nom}}</a>
+								</td>
+								<td></td>
+								<td class="border-b-2 text-center p-1">{{(element.jeux.prix * (1 - (element.jeux.reduction / 100)))|number_format(2) }}
+									€
+								</td>
+								<td class="border-b-2 text-center p-1"><input type="hidden" name="quantite" value="{{element.quantite}}">{{element.quantite}}</td>
+								<td class="border-b-2 text-center p-1">{{element.quantite * (element.jeux.prix * (1 - (element.jeux.reduction / 100)))|number_format(2)}}
+									€
+								</td>
+								<td>
+									<div class="flex justify-center items-center gap-2 h-full">
+										<a href="{{path('app_panier_add' , {'id':element.jeux.id})}}">
+											<svg class=" h-4 lg:h-6 fill-[green]" viewbox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+										</a>
+										<a href="{{path('app_panier_remove' , {'id':element.jeux.id})}}">
+											<svg class="h-4 lg:h-6 fill-[red]" viewbox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM184 232l144 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-144 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/></svg>
+										</a>
+										<a href="{{path('app_panier_delete' , {'id':element.jeux.id})}}">
+											<svg class="h-4 lg:h-6 fill-[grey]" viewbox="0 0 448 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+										</a>
+									</div>
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td class="max-sm:text-sm text-center underline underline-offset-4">Votre panier est vide</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td class=" text-center p-1  text-[#e58f28]">Total :</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td class=" text-center text-white  p-1"><input type="hidden" name="total" value="{{createPanier.total}}">
+								{{createPanier.total }}
+								€
+							</td>
+							<td class=" text-center text-white p-1">
+								<a href="{{path('app_panier_deleteAll')}}">Vider le panier</a>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</section>
+			<section class="flex justify-end">
+				<button class="bg-[#e58f28] p-2 rounded w-[20%]  lg:w-[10%]" type="submit">Payer</button>
+			</section>
+		</form>
+	</main>
+{% endblock %}

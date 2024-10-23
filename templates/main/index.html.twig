@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}E-Gaming
+{% endblock %}
+
+{% block style %}
+	<link rel="stylesheet" href="{{ asset('styles/carousel.css') }}">
+{% endblock %}
+{% block body %}
+	<main class="flex flex-col ">
+		<h1 class="text-[#f95652] text-bold text-4xl m-6 p-4 rounded bg-[#5f565639] container mx-auto w-[80vw]">Nos jeux à ne surtout pas manquer !</h1>
+		<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 container mx-auto w-[80vw] ">
+			{% for jeux_primes in jeux_prime %}
+				{% if jeux_primes.prime == 1 %}
+					<div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-2xl shadow-[0_10px_90px_0px_rgba(255,255,255,0.6)] dark:bg-gray-800 dark:border-gray-700">
+						<div class="card ">
+							<div class="wrapper">
+								<img src="{{jeux_primes.img ? asset('img/' ~ jeux_primes.img)}}" class="cover-image"/>
+							</div>
+							<img src="{{jeux_primes.img3d ? asset('img/' ~ jeux_primes.img3d)}}" class="character"/>
+						</div>
+						<div class="p-5 flex flex-col content-between">
+							<a href="{{path('app_jeux_description',{id:jeux_primes.id})}}">
+								<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center underline">{{jeux_primes.nom}}</h5>
+							</a>
+							<p class="h-48 flex my-3 font-normal text-gray-700 dark:text-gray-400 text-center items-center">{{jeux_primes.description}}</p>
+							<div class="flex justify-between items-center gap-4 relative -bottom-2 mt-4 ">
+								<a href="{{path('app_jeux_description',{id:jeux_primes.id})}}" class=" flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-[#f95652] rounded-lg hover:bg-[#2e2e2e] focus:ring-4 focus:outline-none focus:ring-blue-300 ">
+									Voir plus
+									<svg class="h-6 w-6 fill-[white] " xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 512"><path d=" M192 64C86 64 0 150 0 256S86 448 192 448l256 0c106 0 192-86 192-192s-86-192-192-192L192 64zM496 168a40 40 0 1 1 0 80 40 40 0 1 1 0-80zM392 304a40 40 0 1 1 80 0 40 40 0 1 1 -80 0zM168 200c0-13.3 10.7-24 24-24s24 10.7 24 24l0 32 32 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-32 0 0 32c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-32-32 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l32 0 0-32z"/></svg>
+								</a>
+								{% if jeux_primes.informationJeux.stocks != 0 %}
+									<div id="panier" class="flex flex-col items-center text-center">
+										<a href="{{path('app_panier_add' , {'id':jeux_primes.id})}}">
+											<svg class="h-6 w-6 " xmlns="http://www.w3.org/2000/svg" viewbox="0 0 576 512"><path d="M253.3 35.1c6.1-11.8 1.5-26.3-10.2-32.4s-26.3-1.5-32.4 10.2L117.6 192 32 192c-17.7 0-32 14.3-32 32s14.3 32 32 32L83.9 463.5C91 492 116.6 512 146 512L430 512c29.4 0 55-20 62.1-48.5L544 256c17.7 0 32-14.3 32-32s-14.3-32-32-32l-85.6 0L365.3 12.9C359.2 1.2 344.7-3.4 332.9 2.7s-16.3 20.6-10.2 32.4L404.3 192l-232.6 0L253.3 35.1zM192 304l0 96c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-96c0-8.8 7.2-16 16-16s16 7.2 16 16zm96-16c8.8 0 16 7.2 16 16l0 96c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-96c0-8.8 7.2-16 16-16zm128 16l0 96c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-96c0-8.8 7.2-16 16-16s16 7.2 16 16z"/></svg>
+										</a>
+										<p class="text-xs">Ajout au panier</p>
+									</div>
+								{% else %}
+									<div class=" flex flex-col items-center">
+										<svg class=" h-8 w-8 fill-black" viewbox="0 0 512 512"><path d="M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"/></svg>
+										<p class="text-center text-xs">En rupture de stock</p>
+									</div>
+								{% endif %}
+								<p class="bg-[#e58f28] p-2 rounded text-white text-center">Prix :
+									<br>
+									{{ (jeux_primes.prix * (1 - (jeux_primes.reduction / 100)))|number_format(2) }}
+									€</p>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</section>
+		<h2 class="text-[#f95652] text-bold text-4xl m-6 p-4 rounded bg-[#5f565639] container mx-auto w-[80vw] text-center">Jeux Promo du moment :</h2>
+		<section class=" container mx-auto w-[80vw]">
+			<div class="f-carousel mt-[4em]   rounded-2xl " id="myCarousel">
+				<div class="f-carousel__viewport ">
+					<div class="f-carousel__track  ">
+						{% for jeux_promos in jeux_promo %}
+							<div class="f-carousel__slide  border-2 border-grey rounded-2xl bg-slate-200 overflow-hidden ">
+								<a id="card_promo" href="{{path('app_jeux_description',{id:jeux_promos.id})}}" class="border-b-2 border-[black]">
+									<div class="h-[35vh] flex flex-col justify-end" style="background: url('{{jeux_promos.img ? asset('img/' ~ jeux_promos.img)}}');background-repeat:no-repeat;background-size:cover;background-position:center;">
+										<div id="reduction">
+											<p id="text_reduct" class="font-serif text-2xl lg:text-4xl rounded-2xl bg-[#e58f28] p-2">
+												-
+												{{jeux_promos.reduction}}%</p>
+										</div>
+										<div class="flex p-4 justify-between items-center">
+											<p class="lg:w-[42%]  flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-[#f95652] rounded-lg hover:bg-[#2e2e2e] focus:ring-4 focus:outline-none focus:ring-blue-300 ">
+												Voir plus
+												<svg class="h-6 w-6 fill-[white] " xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 512"><path d=" M192 64C86 64 0 150 0 256S86 448 192 448l256 0c106 0 192-86 192-192s-86-192-192-192L192 64zM496 168a40 40 0 1 1 0 80 40 40 0 1 1 0-80zM392 304a40 40 0 1 1 80 0 40 40 0 1 1 -80 0zM168 200c0-13.3 10.7-24 24-24s24 10.7 24 24l0 32 32 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-32 0 0 32c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-32-32 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l32 0 0-32z"/></svg>
+											</p>
+											<p class="text-[#FFFFF0] md:text-sm md:text-center text-2xl">Prix :
+												{{ (jeux_promos.prix * (1 - (jeux_promos.reduction / 100)))|number_format(2)}}
+												€</p>
+										</div>
+									</div>
+								</a>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</section>
+		<h2 class="text-[#f95652] text-bold text-4xl m-6 p-4 rounded bg-[#5f565639] container mx-auto w-[80vw]">Tous nos jeux :</h2>
+
+		<section class="flex justify-center">
+			<section class="flex max-sm:flex-col max-sm:flex-col-reverse ">
+				<form class="max-w-lg mx-auto" method="get">
+					<div class="flex ">
+						<button id="dropdown-button" data-dropdown-toggle="dropdown" class="z-10 whitespace-nowrap inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 " type="button">Toutes les catégories
+							<svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 10 6">
+								<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+							</svg>
+						</button>
+						<div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+							<ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
+								<li>
+									<a href="{{path('app_main')}}">
+										<button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Tous les jeux</button>
+									</a>
+								</li>
+								{% for allCategories in allCategorie %}
+									<li>
+										<a href="{{path('app_main',{id:allCategories.id})}}">
+											<button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">{{allCategories.nom}}</button>
+										</a>
+									</li>
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+				</form>
+				<div id="eff" class="relative w-full flex gap-12">
+					{{ form_start(form)}}
+					{{ form_widget(form.searcht)}}
+					<button type="submit" class="absolute  p-2.5 text-sm font-medium h-full text-white bg-[#e58f28] rounded-e-lg border border-[#e58f28]  focus:ring-4 focus:outline-none focus:ring-blue-300">
+						<svg class="w-4 h-4 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 20 20">
+							<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+						</svg>
+					</button>
+					{{ form_end(form)}}
+					<a class="self-center underline hover:text-[#e58f28]" href="{{path('app_main')}}">Effacer</a>
+				</div>
+			</section>
+		</section>
+
+		<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 container mx-auto lg:w-[80vw] m-[3%] ">
+			{% for allJeuxs in allJeux %}
+				<section class=" rounded-2xl ">
+					<a href="{{path('app_jeux_description',{id:allJeuxs.id})}}">
+						<div class=" relative flex  flex-col justify-center overflow-hidden bg-gray-50">
+							<div class="absolute inset-0 bg-center dark:bg-black"></div>
+							<div class="group relative m-0 flex h-72 w-50 rounded-xl shadow-xl ring-gray-900/5 sm:mx-auto sm:max-w-lg">
+								<div class=" h-full w-full overflow-hidden rounded-xl border border-gray-200 opacity-80 transition duration-300 ease-in-out group-hover:opacity-100 dark:border-gray-700 dark:opacity-70">
+									<img src="{{allJeuxs.img ? asset('img/' ~ allJeuxs.img)}}" class="animate-fade-in block h-full w-full scale-100 transform object-cover object-center opacity-100 transition duration-300 group-hover:scale-110" alt=""/>
+								</div>
+								<div class="absolute flex justify-around w-full items-center bottom-0 z-20 p-4 pb-4 ps-4 transition duration-300 ease-in-out group-hover:-translate-y-1  group-hover:translate-x-3 group-hover:scale-110">
+									<p class="text-xl md:text-sm font-bold text-gray-200 shadow-xl">Prix :
+										{{(allJeuxs.prix * (1 - (allJeuxs.reduction / 100)))|number_format(2)}}
+										€</p>
+									<p class=" flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white bg-[#f95652] rounded-lg hover:bg-[#2e2e2e] focus:ring-4 focus:outline-none focus:ring-blue-300 ">
+										Voir plus
+										<svg class="h-6 w-6 fill-[white] " xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 512"><path d=" M192 64C86 64 0 150 0 256S86 448 192 448l256 0c106 0 192-86 192-192s-86-192-192-192L192 64zM496 168a40 40 0 1 1 0 80 40 40 0 1 1 0-80zM392 304a40 40 0 1 1 80 0 40 40 0 1 1 -80 0zM168 200c0-13.3 10.7-24 24-24s24 10.7 24 24l0 32 32 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-32 0 0 32c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-32-32 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l32 0 0-32z"/></svg>
+									</p>
+								</div>
+							</div>
+						</div>
+					</a>
+				</section>
+			{% endfor %}
+
+		</section>
+		<section class="text-white flex justify-center">
+			{{ knp_pagination_render(allJeux) }}
+		</section>
+	</main>
+{% endblock %}

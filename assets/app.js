@@ -1,10 +1,15 @@
-import './bootstrap.js';
-/*
- * Welcome to your app's main JavaScript file!
- *
- * This file will be included onto the page via the importmap() Twig function,
- * which should already be in your base.html.twig.
- */
 import './styles/app.css';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+import { Carousel } from '@fancyapps/ui/dist/carousel/carousel.esm.js';
+import '@fancyapps/ui/dist/carousel/carousel.css';
+import { Autoplay } from "@fancyapps/ui/dist/carousel/carousel.autoplay.esm.js";
+import "@fancyapps/ui/dist/carousel/carousel.autoplay.css";
+
+const container = document.getElementById("myCarousel");
+const options = {
+  Autoplay: {
+    timeout: 3000,
+  },
+};
+
+new Carousel(container, options, { Autoplay });

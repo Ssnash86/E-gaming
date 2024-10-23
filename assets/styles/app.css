@@ -1,3 +1,11 @@
-body {
-    background-color: skyblue;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("effet_card.css");
+
+
+@import url("search_bar.css");
+@import url("gene.css");
+
+
+

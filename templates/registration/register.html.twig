@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}inscription
+{% endblock %}
+{% block body %}
+<main class="h-[85vh]">
+	{% for flash_error in app.flashes('verify_email_error') %}
+		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+	{% endfor %}
+	<section class=" border-2 rounded-2xl container mx-auto lg:w-[40vw]   p-6 mt-[8%] shadow-2xl shadow-[0_10px_90px_0px_rgba(255,255,255,0.6)]">
+		<h1 class="text-4xl text-white underline  underline-offset-8 p-6">S'inscrire:</h1>
+		{{ form_errors(registrationForm) }}
+		{{ form_start(registrationForm) }}
+		<div class="flex max-sm:flex-col justify-around ">
+			<div>
+				{{ form_label(registrationForm.email, "Email :", {'label_attr': {'class': 'uppercase m-4 flex flex-col text-[#e58f28] underline underline-offset-4'}}) }}
+				{{ form_widget(registrationForm.email) }}
+				{{ form_label(registrationForm.plainPassword, "Votre mot de passe :", {'label_attr': {'class': 'uppercase m-4 flex flex-col text-[#e58f28] underline underline-offset-4'}}) }}
+				{{ form_widget(registrationForm.plainPassword)}}
+			</div>
+			<div class="flex flex-col justify-center">
+			<a class="text-white mt-4 hover:text-[#e58f28] underline underline-offset-2  " href="{{path('app_condition')}}">Condition de Confidentialité</a>
+				<div class="flex">
+					{{ form_label(registrationForm.agreeTerms,"J'accepte les termes ", {'label_attr': {'class': 'uppercase m-4 flex flex-col text-[#e58f28] underline underline-offset-4'}}) }}
+					{{ form_widget(registrationForm.agreeTerms ,{'attr': {'class': 'self-center'}}) }}
+				</div>
+				<button type="submit" class="btn bg-[#e58f28] p-2 rounded ">S'inscrire</button>
+                <p class="text-white mt-4 ">Déjà inscrtit ? <a class="hover:text-[#e58f28] underline underline-offset-2" href="{{path('app_login')}}"> Ce connecter .</a> </p>
+			</div>
+		</div>
+		{{ form_end(registrationForm) }}</section>
+</main>
+{% endblock %}
